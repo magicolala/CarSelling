@@ -32,12 +32,14 @@
             <div class="full-bg-img">
                 <div class="mask rgba-indigo-slight flex-center">
                     <div class="container">
-                        <div class="white-text text-center wow fadeInUp">
-                            <h2>This Navbar isn't fixed</h2>
-                            <h5>When you scroll down it will disappear</h5>
-                            <br>
-                            <p>Full page intro with background image will be always displayed in full screen mode, regardless
-                                of device </p>
+                        <div class="text-center wow fadeInUp">
+                            <form action="{{ path('search') }}" class="card col-md-4 py-4">
+                                <h3 class="font-weight-bolder">Rechercher une marque, un modèle...</h3>
+                                <div class="form-group">
+                                    <input type="search" class="form-control" name="search" id="model" placeholder="ex: Scenic">
+                                </div>
+                                <input type="submit" class="btn btn-danger" value="Rechercher">
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -13,11 +13,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{{ asset('dist/css/bootstrap.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('dist/css/animate.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="{{ asset('dist/css/mdb.min.css') }}">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('dist/css/star-rating-svg.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('dist/css/modules/animations-extended.min.css') }}">
     <!-- Your custom styles (optional) -->
     <link rel="stylesheet" href="{{ asset('dist/css/style.css') }}">
     {% block style %}{% endblock style %}
@@ -30,13 +33,20 @@
 <script type="text/javascript" src="{{ asset('dist/js/popper.min.js') }}"></script>
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript" src="{{ asset('dist/js/bootstrap.min.js') }}"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="{{ asset('dist/js/mdb.min.js') }}"></script>
+
 <script type="text/javascript" src="{{ asset('dist/js/wow.js') }}"></script>
 <script>
     new WOW().init();
 </script>
 <script src="{{ asset('dist/js/jquery.star-rating-svg.js') }}"></script>
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{{ asset('dist/js/addons/masonry.pkgd.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{{ asset('dist/js/mdb.min.js') }}"></script>
 {% block javascripts %}{% endblock %}
 </body>
 </html>

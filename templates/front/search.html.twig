@@ -1,0 +1,229 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'front/includes/navbar.html.twig' %}
+    <div class="container-fluid mt-4 p-5">
+
+        <div class="row">
+            <div class="col-md-2 border-danger">
+                <h3>Filtres</h3>
+                {% if search != '' %}
+                    <a href="{{ path('search') }}">
+                        <div class="badge badge-pill badge-light">{{ search }} X</div>
+                    </a>
+                {% endif %}
+                <form action="{{ path('search') }}" class="my-4">
+                    <div class="form-group text-center">
+                        <input type="search" class="form-control" name="search" placeholder="Rechercher un véhicule">
+                        <input type="submit" value="Rechercher" class="btn btn-danger">
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Marque</label>
+                        <select class="form-control" name="brandSearch" id="brand">
+                            <option value=""
+                                    disabled {% if app.request.get('brandSearch') == '' %} selected {% endif %}>
+                                Selectionnez une marque
+                            </option>
+                            <option value="">Aucune</option>
+                            {% for brand in brands %}
+                                <option {% if app.request.get('brandSearch') == brand %} selected {% endif %}
+                                        value="{{ brand }}">{{ brand }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="energie">Carburant</label>
+                        <select class="form-control" name="energieSearch" id="energie">
+                            <option value="" disabled
+                                    {% if app.request.get('energieSearch') == '' %}selected{% endif %}>Selectionnez un
+                                carburant
+                            </option>
+                            <option value="">Aucune</option>
+                            {% for energie in energies %}
+                                <option value="{{ energie }}"
+                                        {% if app.request.get('energieSearch') == energie %}selected{% endif %}>{{ energie }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="categorie">Catégories</label>
+                        <select class="form-control" name="categorySearch" id="categorie">
+                            <option value=""
+                                    disabled {% if app.request.get('categorySearch') == '' %} selected {% endif %}>
+                                Selectionnez une catégorie
+                            </option>
+                            <option value="">Aucune</option>
+                            {% for key,value in categories %}
+                                <option value="{{ key }}" {% if app.request.get('categorySearch') == key %} selected {% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Année</label>
+                        <select class="form-control" name="yearSearch" id="year">
+                            <option value="" disabled {% if app.request.get('yearSearch') == '' %} selected {% endif %}>
+                                Selectionnez une année
+                            </option>
+                            <option value="">Aucune</option>
+                            {% for year in years %}
+                                <option value="{{ year }}" {% if app.request.get('yearSearch') == year %} selected {% endif %}>
+                                    Supérieur à {{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <p>Nombre de porte</p>
+                        <!-- Material inline 1 -->
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="materialInline1"
+                                   name="nbPorteSearch" {% if app.request.get('nbPorteSearch') == '' %} checked {% endif %}
+                                   value="">
+                            <label class="form-check-label" for="materialInline1">Toutes</label>
+                        </div>
+                        <!-- Material inline 1 -->
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="materialInline11"
+                                   name="nbPorteSearch" {% if app.request.get('nbPorteSearch') == 2 %} checked {% endif %}
+                                   value="2">
+                            <label class="form-check-label" for="materialInline11">3</label>
+                        </div>
+
+                        <!-- Material inline 2 -->
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="materialInline2"
+                                   name="nbPorteSearch" {% if app.request.get('nbPorteSearch') == 4 %} checked {% endif %}
+                                   value="4">
+                            <label class="form-check-label" for="materialInline2">5</label>
+                        </div>
+
+                        <!-- Material inline 2 -->
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="materialInline22"
+                                   name="nbPorteSearch" {% if app.request.get('nbPorteSearch') == 6 %} checked {% endif %}
+                                   value="6">
+                            <label class="form-check-label" for="materialInline22">5+</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p>Boite de vitesse</p>
+                        <!-- Material inline 1 -->
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="materialInline33"
+                                   name="boite_de_vitesseSearch" {% if app.request.get('boite_de_vitesseSearch') == '' %} checked {% endif %}
+                                   value="">
+                            <label class="form-check-label" for="materialInline33">Toutes</label>
+                        </div>
+                        <!-- Material inline 1 -->
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="materialInline44"
+                                   name="boite_de_vitesseSearch" {% if app.request.get('boite_de_vitesseSearch') == 'automatic' %} checked {% endif %}
+                                   value="automatic">
+                            <label class="form-check-label" for="materialInline44">Automatique</label>
+                        </div>
+
+                        <!-- Material inline 2 -->
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" id="materialInline55"
+                                   name="boite_de_vitesseSearch" {% if app.request.get('boite_de_vitesseSearch') == 'manual' %} checked {% endif %}
+                                   value="manual">
+                            <label class="form-check-label" for="materialInline55">Manuelle</label>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Rechercher" class="btn btn-danger text-center">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="p-3 text-center">
+                            <ul>
+                                <li class="btn {% if app.request.get('sort') == 'c.prix' %}btn-outline-dark{% else %}btn-outline-light{% endif %}">{{ knp_pagination_sortable(cars, 'Prix', 'c.prix') }}
+                                    <i class="fas fa-sort"></i></li>
+                                <li class="btn {% if app.request.get('sort') == 'c.note' %}btn-outline-dark{% else %}btn-outline-light{% endif %}">{{ knp_pagination_sortable(cars, 'Note', 'c.note') }}
+                                    <i class="fas fa-sort"></i></li>
+                                <li class="btn {% if app.request.get('sort') == 'c.brand' %}btn-outline-dark{% else %}btn-outline-light{% endif %}">{{ knp_pagination_sortable(cars, 'Marque', 'c.brand') }}
+                                    <i class="fas fa-sort"></i></li>
+                            </ul>
+                        </div>
+                        <div class="count">
+                            <h3>{{ cars.getTotalItemCount }} Véhicule{% if cars.totalItemCount|length > 1 %}s{% endif %}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row grid">
+                    <div class="grid-sizer col-md-2"></div>
+                    {% for car in cars %}
+                        <div class="col-md-2 mb-5 grid-item wow fadeInUp">
+                            <div class="card hoverable">
+                                <div>
+
+                                    <!-- Card image -->
+                                    <img class="card-img-top"
+                                         src="https://www.hyundaimagog.com/wp-content/uploads/medias/hyundai/ioniq-hybride-2019/trims/argent-platine-0.png"
+                                         alt="Card image cap">
+                                    <a href="#">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                                <!-- Card content -->
+                                <div class="card-body text-center">
+                                    <div class="d-flex justify-content-between">
+                                        <h6>
+                                            <a href="{{ path('search', {'energieSearch': car.energie}) }}">{{ car.energie|capitalize }}</a>
+                                        </h6>
+                                        <h6>
+                                            <i class="fas fa-star text-warning"></i>&nbsp;{{ car.note|number_format(1,',',' ') }}
+                                        </h6>
+                                    </div>
+                                    <!-- Title -->
+                                    <h4 class="card-title"><strong>{{ car.brand }} {{ car.model }} <small
+                                                    class="text-muted">{{ car.year }}</small></strong></h4>
+                                    <!-- Text -->
+                                    {#                                <p class="card-text">{{ car.description }}</p>#}
+                                    <!-- Button -->
+                                    <a href="#" class="btn btn-outline-danger ">Voir</a>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between">
+                                    <span>{{ car.prix|number_format(2, ',', ' ') }} €</span>
+                                    <a href="{{ path('search', {'categorySearch': car.category}) }}">{{ categories[car.category] }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <h3 class="">Aucune voiture ne correspond à ce critère</h3>
+                    {% endfor %}
+                </div>
+                {# display navigation #}
+                <div class="row">
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <div class="navigation">
+                            {{ knp_pagination_render(cars) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('.grid').masonry({
+                itemSelector: '.grid-item', // use a separate class for itemSelector, other than .col-
+                columnWidth: '.grid-sizer',
+                percentPosition: true
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('select').select2();
+        });
+    </script>
+{% endblock %}
+
