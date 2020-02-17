@@ -137,32 +137,31 @@
             <div class="col-md-10">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="p-3 text-center">
-                            <ul>
-                                <li class="btn {% if app.request.get('sort') == 'c.prix' %}btn-outline-dark{% else %}btn-outline-light{% endif %}">{{ knp_pagination_sortable(cars, 'Prix', 'c.prix') }}
-                                    <i class="fas fa-sort"></i></li>
-                                <li class="btn {% if app.request.get('sort') == 'c.note' %}btn-outline-dark{% else %}btn-outline-light{% endif %}">{{ knp_pagination_sortable(cars, 'Note', 'c.note') }}
-                                    <i class="fas fa-sort"></i></li>
-                                <li class="btn {% if app.request.get('sort') == 'c.brand' %}btn-outline-dark{% else %}btn-outline-light{% endif %}">{{ knp_pagination_sortable(cars, 'Marque', 'c.brand') }}
-                                    <i class="fas fa-sort"></i></li>
-                            </ul>
+                        <div class="p-1 d-flex justify-content-center">
+                            <div>{{ knp_pagination_sortable(cars, 'Prix', 'c.prix', {'class': 'btn btn-outline'}) }}</div>
+                            <div>{{ knp_pagination_sortable(cars, 'Note', 'c.note', {'class': 'btn btn-outline'}) }}</div>
+                            <div>{{ knp_pagination_sortable(cars, 'Marque', 'c.brand', {'class': 'btn btn-outline'}) }}</div>
+                            <div>{{ knp_pagination_sortable(cars, 'Année', 'c.year', {'class': 'btn btn-outline'}) }}</div>
+                            <div>{{ knp_pagination_sortable(cars, 'Date de publication', 'c.created_at', {'class': 'btn btn-outline'}) }}</div>
+                            <div>{{ knp_pagination_sortable(cars, 'Vendu', 'c.isSelling', {'class': 'btn btn-outline'}) }}</div>
                         </div>
                         <div class="count">
-                            <h3>{{ cars.getTotalItemCount }} Véhicule{% if cars.totalItemCount|length > 1 %}s{% endif %}</h3>
+                            <h3>{{ cars.getTotalItemCount }}
+                                Véhicule{% if cars.totalItemCount|length > 1 %}s{% endif %}</h3>
                         </div>
                     </div>
                 </div>
 
                 <div class="row grid">
-                    <div class="grid-sizer col-md-2"></div>
+                    <div class="grid-sizer col-xl-2 col-lg-3"></div>
                     {% for car in cars %}
-                        <div class="col-md-2 mb-5 grid-item wow fadeInUp">
+                        <div class="col-xl-2 col-lg-3 mb-5 grid-item wow fadeInUp">
                             <div class="card hoverable">
                                 <div>
 
                                     <!-- Card image -->
                                     <img class="card-img-top"
-                                         src="https://www.hyundaimagog.com/wp-content/uploads/medias/hyundai/ioniq-hybride-2019/trims/argent-platine-0.png"
+                                         src="{{car.img}}"
                                          alt="Card image cap">
                                     <a href="#">
                                         <div class="mask rgba-white-slight"></div>
@@ -184,7 +183,10 @@
                                     <!-- Text -->
                                     {#                                <p class="card-text">{{ car.description }}</p>#}
                                     <!-- Button -->
-                                    <a href="#" class="btn btn-outline-danger ">Voir</a>
+                                    <a href="{{ path('showCar', {'id': car.id}) }}" class="btn btn-outline-danger ">Voir</a>
+                                    {% if car.isSelling == true  %}
+                                        <div class="badge badge-danger" style="position: absolute; top: 20px;">Vendu</div>
+                                    {% endif %}
                                 </div>
                                 <div class="card-footer d-flex justify-content-between">
                                     <span>{{ car.prix|number_format(2, ',', ' ') }} €</span>

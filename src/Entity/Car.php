@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CarRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Car
 {
@@ -218,11 +219,6 @@ class Car
     private $boite_de_vitesse;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nbPlace;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $description;
@@ -251,6 +247,26 @@ class Car
      * @ORM\Column(type="string", length=255)
      */
     private $model;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isSelling;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPublished;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(type="string", length=510, nullable=true)
+     */
+    private $img;
 
     public function getId(): ?int
     {
@@ -325,18 +341,6 @@ class Car
     public function setBoiteDeVitesse(?string $boite_de_vitesse): self
     {
         $this->boite_de_vitesse = $boite_de_vitesse;
-
-        return $this;
-    }
-
-    public function getNbPlace(): ?int
-    {
-        return $this->nbPlace;
-    }
-
-    public function setNbPlace(?int $nbPlace): self
-    {
-        $this->nbPlace = $nbPlace;
 
         return $this;
     }
@@ -423,5 +427,67 @@ class Car
     {
         $this->model = $model;
         return $this;
+    }
+
+    public function getIsSelling(): ?bool
+    {
+        return $this->isSelling;
+    }
+
+    public function setIsSelling(?bool $isSelling): self
+    {
+        $this->isSelling = $isSelling;
+
+        return $this;
+    }
+
+    public function getIsPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): self
+    {
+        $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function updatedTimestamps(): void
+    {
+        if ($this->getCreatedAt() === null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
+
+        if ($this->getIsPublished() === null) {
+            $this->setIsPublished(false);
+        }
     }
 }

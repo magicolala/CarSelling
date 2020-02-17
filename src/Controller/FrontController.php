@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Car;
+use App\Form\CarType;
 use App\Repository\CarRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FrontController extends AbstractController
 {
     /**
-     * @Route("/", name="front")
+     * @Route("/", name="home")
      */
     public function index()
     {
@@ -71,5 +73,63 @@ class FrontController extends AbstractController
             'categories' => $categories,
             'years'      => $years
         ]);
+    }
+
+    /**
+     * @Route("/addCar", name="addCar")
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function addCar(Request $request)
+    {
+        $car = new Car();
+
+        $form = $this->createForm(CarType::class, $car);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $car = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($car);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('search');
+        }
+
+        return $this->render('front/newCar.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/car/{id}", name="showCar")
+     * @param $id
+     * @param CarRepository $carRepository
+     * @return Response
+     */
+    public function showCar($id, CarRepository $carRepository)
+    {
+        $car = $carRepository->find($id);
+        $categories = Car::$categories;
+
+        return $this->render('front/showCar.html.twig', ['car' => $car, 'categories' => $categories]);
+    }
+
+    /**
+     * @Route("/sellCar/{id}", name="sellCar")
+     * @param $id
+     * @param CarRepository $carRepository
+     * @return RedirectResponse
+     */
+    public function sellCar($id, CarRepository $carRepository) {
+        $em = $this->getDoctrine()->getManager();
+
+        $car = $carRepository->find($id);
+        $car->setIsSelling(true);
+
+        $em->persist($car);
+        $em->flush();
+
+        return $this->redirectToRoute('showCar', ['id' => $id]);
     }
 }

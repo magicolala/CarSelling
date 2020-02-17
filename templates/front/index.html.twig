@@ -7,21 +7,18 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
-                <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+                <a class="navbar-brand" href="#"><strong>Auto Vente</strong></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Vendre sa voiture</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Profile</a>
+                            <a class="nav-link" href="{{ path('addCar') }}">Vendre mon véhicule</a>
                         </li>
                     </ul>
                 </div>
@@ -36,7 +33,7 @@
                             <form action="{{ path('search') }}" class="card col-md-4 py-4">
                                 <h3 class="font-weight-bolder">Rechercher une marque, un modèle...</h3>
                                 <div class="form-group">
-                                    <input type="search" class="form-control" name="search" id="model" placeholder="ex: Scenic">
+                                    <input type="search" class="form-control" name="search" id="model" placeholder="ex: Clio">
                                 </div>
                                 <input type="submit" class="btn btn-danger" value="Rechercher">
                             </form>

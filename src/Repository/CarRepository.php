@@ -73,7 +73,9 @@ class CarRepository extends ServiceEntityRepository
                     $qb->expr()->like($alias . ".model", ":term" . $i),
                     $qb->expr()->like($alias . ".category", ":term" . $i)
                 ))
-                ->setParameter("term" . $i, "%" . $term . "%");
+                ->setParameter("term" . $i, "%" . $term . "%")
+                ->andWhere('c.isPublished = true');
+
         }
 
         return $qb->orderBy('c.brand')->getQuery();
@@ -117,6 +119,7 @@ class CarRepository extends ServiceEntityRepository
                 ->andWhere('c.boite_de_vitesse = :boite_de_vitesse')
                 ->setParameter('boite_de_vitesse', $criteria['boite_de_vitesse']);
         }
+        $qb->andWhere('c.isPublished = true');
 
         return $qb->orderBy('c.brand')->getQuery();
     }
