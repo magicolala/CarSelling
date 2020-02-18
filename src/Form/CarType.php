@@ -14,8 +14,14 @@ class CarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $energies = [];
+        $brands = [];
         foreach (Car::$energies as $energy) {
             $energies[$energy] = $energy;
+        }
+        $brandsU = Car::$brands;
+        sort($brandsU);
+        foreach ($brandsU as $key => $value) {
+            $brands[$value] = $value;
         }
 
         $builder
@@ -44,7 +50,9 @@ class CarType extends AbstractType
             ->add('prix')
             ->add('note')
             ->add('city')
-            ->add('brand')
+            ->add('brand', ChoiceType::class, [
+                'choices' => $brands
+            ])
             ->add('model')
             ->add('img')
             ->add('Enregistrer', SubmitType::class);

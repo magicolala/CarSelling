@@ -12,3 +12,10 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('select').select2();
+    </script>
+{% endblock %}
